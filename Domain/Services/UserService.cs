@@ -33,7 +33,7 @@ namespace Domain.Services
         {
             ValidationResult validationResult = _userValidator.Validate(user);
             if(!validationResult.IsValid){
-                throw new ValidationException($"Error creating user: {$validationResult.Errors.FirstOrDefault().ErrorMessage}");
+                throw new ValidationException($"Error creating user: {validationResult.Errors.FirstOrDefault().ErrorMessage}");
             }
             await _userRepository.CreateUser(user);
         }
