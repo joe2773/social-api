@@ -4,8 +4,6 @@ using Data.Entities;
 using Data.Repositories;
 using Domain.Services.Interfaces;
 using FluentValidation.Results;
-
-
 namespace Domain.Services
 {
     public class UserService : IUserService

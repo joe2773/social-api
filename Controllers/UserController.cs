@@ -8,6 +8,7 @@ using Domain.Services.Interfaces;
 namespace YourNamespace.Controllers
 {
     [ApiController]
+    [ErrorHandling]
     [Route("api/users")]
     public class UserController : ControllerBase
     {
@@ -37,19 +38,7 @@ namespace YourNamespace.Controllers
         public async Task<IActionResult> CreateUser(UserDto userDto)
         {
             User user = _mapper.Map<User>(userDto);
-            try{
-                await _userService.CreateUser(user);
-            }
-            catch(NotFoundException ex) {
-                return NotFound(ex.Message);
-            }
-            catch(ValidationException ex){
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex){
-                return StatusCode(500,$"error occured within the application: {ex.Message}" );
-            }
-            
+            await _userService.CreateUser(user);
 
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, userDto);
         }
