@@ -25,11 +25,6 @@ namespace YourNamespace.Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             User user = await _userService.GetUserById(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
             UserDto userDto = _mapper.Map<UserDto>(user);
             return Ok(userDto);
         }
@@ -43,17 +38,11 @@ namespace YourNamespace.Controllers
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, userDto);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UserDto userDto)
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(UserDto userDto)
         {
-            User existingUser = await _userService.GetUserById(id);
-            if (existingUser == null)
-            {
-                return NotFound();
-            }
-
-            _mapper.Map(userDto, existingUser);
-            await _userService.UpdateUser(existingUser);
+            User user = _mapper.Map<User>(userDto);
+            await _userService.UpdateUser(user);
 
             return NoContent();
         }
@@ -61,13 +50,8 @@ namespace YourNamespace.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            User user = await _userService.GetUserById(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
 
-            await _userService.DeleteUser(user);
+            await _userService.DeleteUser(id);
 
             return NoContent();
         }
