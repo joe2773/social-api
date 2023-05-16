@@ -31,6 +31,7 @@ builder.Services.AddDbContext<SocialDbContext>(options =>
 // Register your domain services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<ILikeService, LikeService>();
 
 
 var mapperConfig = new MapperConfiguration(cfg =>
