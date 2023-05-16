@@ -1,11 +1,10 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using Dtos;
 using Data.Entities;
 using Domain.Services.Interfaces;
 
-namespace YourNamespace.Controllers
+namespace Controllers
 {
     [ApiController]
     [ErrorHandling]
