@@ -4,8 +4,6 @@ using Data.Entities;
 using Data.Repositories;
 using Domain.Services.Interfaces;
 using FluentValidation.Results;
-
-
 namespace Domain.Services
 {
     public class UserService : IUserService
@@ -21,6 +19,10 @@ namespace Domain.Services
 
         public async Task<User> GetUserById(int id)
         {
+            var user = _userRepository.GetUserById(id);
+            if(user == null){
+                throw new NotFoundException($"User with id {id} not found");
+            }
             return await _userRepository.GetUserById(id);
         }
 
@@ -40,12 +42,21 @@ namespace Domain.Services
 
         public async Task UpdateUser(User user)
         {
-            await _userRepository.UpdateUser(user);
+            var userToUpdate = await _userRepository.GetUserById(user.Id);
+            if(userToUpdate == null){
+                throw new NotFoundException($"User with id {user.Id} not found, failed to update");
+            }
+            await _userRepository.UpdateUser(userToUpdate);
         }
 
-        public async Task DeleteUser(User user)
+        public async Task DeleteUser(int userId)
         {
-            await _userRepository.DeleteUser(user);
+            var userToDelete = await _userRepository.GetUserById(userId);
+            if(userToDelete == null){
+                throw new NotFoundException($"User with id {userId} not found, failed to delete");
+            }
+            
+            await _userRepository.DeleteUser(userToDelete);
         }
     }
 }

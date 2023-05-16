@@ -6,7 +6,7 @@ namespace Domain.Services.Interfaces {
         Task<List<User>> GetAllUsers();
         Task CreateUser(User user);
         Task UpdateUser(User user);
-        Task DeleteUser(User user);
+        Task DeleteUser(int userId);
     }
 
 }
