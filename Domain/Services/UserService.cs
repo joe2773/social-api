@@ -46,6 +46,10 @@ namespace Domain.Services
             if(userToUpdate == null){
                 throw new NotFoundException($"User with id {user.Id} not found, failed to update");
             }
+            ValidationResult validationResult = _userValidator.Validate(user);
+            if(!validationResult.IsValid){
+                throw new ValidationException($"Error updating user: {validationResult.Errors.FirstOrDefault().ErrorMessage}");
+            }
             await _userRepository.UpdateUser(userToUpdate);
         }
 

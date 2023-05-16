@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddFluentValidation(configuration => {
     configuration.RegisterValidatorsFromAssemblyContaining<UserValidator>();
+    configuration.RegisterValidatorsFromAssemblyContaining<PostValidator>();
     configuration.ImplicitlyValidateChildProperties = true;
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -29,6 +30,8 @@ builder.Services.AddDbContext<SocialDbContext>(options =>
 
 // Register your domain services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPostService, PostService>();
+
 
 var mapperConfig = new MapperConfiguration(cfg =>
 {

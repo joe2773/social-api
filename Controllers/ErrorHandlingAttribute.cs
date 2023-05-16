@@ -16,6 +16,9 @@ public class ErrorHandlingAttribute : Attribute, IExceptionFilter
         if(context.Exception is NotFoundException notFoundException){
             context.Result = new NotFoundObjectResult(notFoundException.Message ?? "Resource not found");
         }
+        if(context.Exception is DomainException domainException){
+            context.Result = new ObjectResult(domainException.Message);
+        }
         // For example, you can return a specific status code and error message
        
         
