@@ -25,7 +25,7 @@ namespace YourNamespace.Controllers
         public async Task<IActionResult> GetLikeById(int id)
         {
             Like like = await _likeService.GetLikeById(id);
-            LikeRequestDto likeDto = _mapper.Map<LikeRequestDto>(like);
+            LikeResponseDto likeDto = _mapper.Map<LikeResponseDto>(like);
             return Ok(likeDto);
         }
 

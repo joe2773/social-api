@@ -25,7 +25,7 @@ namespace YourNamespace.Controllers
         public async Task<IActionResult> GetCommentById(int id)
         {
             Comment comment = await _commentService.GetCommentById(id);
-            CommentRequestDto commentDto = _mapper.Map<CommentRequestDto>(comment);
+            CommentResponseDto commentDto = _mapper.Map<CommentResponseDto>(comment);
             return Ok(commentDto);
         }
 

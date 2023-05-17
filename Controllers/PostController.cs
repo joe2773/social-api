@@ -25,7 +25,7 @@ namespace Controllers
         public async Task<IActionResult> GetPostById(int id)
         {
             Post post = await _postService.GetPostById(id);
-            PostRequestDto postDto = _mapper.Map<PostRequestDto>(post);
+            PostResponseDto postDto = _mapper.Map<PostResponseDto>(post);
             return Ok(postDto);
         }
 
