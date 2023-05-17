@@ -52,6 +52,7 @@ namespace Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteUser(int id)
         {
 

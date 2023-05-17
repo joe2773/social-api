@@ -1,6 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Dtos;
 using Data.Entities;
 using Domain.Services.Interfaces;
@@ -30,6 +30,7 @@ namespace YourNamespace.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateLike(LikeRequestDto likeDto)
         {
             Like like = _mapper.Map<Like>(likeDto);
@@ -39,6 +40,7 @@ namespace YourNamespace.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> UpdateLike(LikeRequestDto likeDto)
         {
             Like like = _mapper.Map<Like>(likeDto);
@@ -48,6 +50,7 @@ namespace YourNamespace.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteLike(int id)
         {
             await _likeService.DeleteLike(id);

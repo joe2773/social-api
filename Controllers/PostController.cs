@@ -1,6 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Dtos;
 using Data.Entities;
 using Domain.Services.Interfaces;
@@ -30,6 +30,7 @@ namespace Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreatePost(PostRequestDto postDto)
         {
             Post post = _mapper.Map<Post>(postDto);
@@ -39,6 +40,7 @@ namespace Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> UpdatePost(PostRequestDto postDto)
         {
             Post post = _mapper.Map<Post>(postDto);
@@ -48,6 +50,7 @@ namespace Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeletePost(int id)
         {
             await _postService.DeletePost(id);
