@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Services;
 using Domain.Services.Interfaces;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +37,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ILikeService, LikeService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 
 var mapperConfig = new MapperConfiguration(cfg =>
@@ -44,9 +47,19 @@ var mapperConfig = new MapperConfiguration(cfg =>
 
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "SocialApiCookie";
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.LoginPath = "/api/authentication/login"; // The login endpoint URL
+        options.LogoutPath = "/api/authentication/logout"; // The logout endpoint URL
+        options.AccessDeniedPath = "/api/authentication/accessdenied"; // The access denied endpoint URL
+    });
+
+
 var app = builder.Build();
-
-
 
 
 // Configure the HTTP request pipeline.
@@ -58,6 +71,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

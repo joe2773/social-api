@@ -19,7 +19,6 @@ namespace Domain.Services
             _postValidator = postValidator;
             _userService = userService;
         }
-
         public async Task<Post> GetPostById(int id)
         {
             var post = await _postRepository.GetPostById(id);
@@ -34,7 +33,7 @@ namespace Domain.Services
         {
             return await _postRepository.GetAllPosts();
         }
-
+        
         public async Task CreatePost(Post post)
         {
             ValidationResult validationResult = _postValidator.Validate(post);

@@ -7,6 +7,6 @@ namespace Dtos{
         public DateTime DateCreated { get; set; }
 
         public PostDto? Post { get; set; }
-        public UserDto? User { get; set; }
+        public UserRequestDto? User { get; set; }
     }
 }

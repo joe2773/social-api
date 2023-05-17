@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Dtos;
 using Data.Entities;
 using Domain.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Controllers
 {
@@ -24,12 +26,12 @@ namespace Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             User user = await _userService.GetUserById(id);
-            UserDto userDto = _mapper.Map<UserDto>(user);
+            UserRequestDto userDto = _mapper.Map<UserRequestDto>(user);
             return Ok(userDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(UserDto userDto)
+        public async Task<IActionResult> CreateUser(UserRequestDto userDto)
         {
             User user = _mapper.Map<User>(userDto);
             await _userService.CreateUser(user);
@@ -38,8 +40,13 @@ namespace Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UserDto userDto)
+        [Authorize]
+        public async Task<IActionResult> UpdateUser(UserRequestDto userDto)
         {
+            var username = User?.Identity?.Name;
+            if(username != userDto.Name){
+                return Unauthorized($"Cannot update user with name {username} as you are not logged in as that user");
+            }
             User user = _mapper.Map<User>(userDto);
             await _userService.UpdateUser(user);
 

@@ -19,11 +19,19 @@ namespace Domain.Services
 
         public async Task<User> GetUserById(int id)
         {
-            var user = _userRepository.GetUserById(id);
+            var user = await _userRepository.GetUserById(id);
             if(user == null){
                 throw new NotFoundException($"User with id {id} not found");
             }
-            return await _userRepository.GetUserById(id);
+            return user;
+        }
+
+        public async Task<User> GetUserByUsername(string username){
+            var user = await _userRepository.GetUserByUsername(username);
+            if(user == null){
+                throw new NotFoundException($"User with name {username} not found");
+            }
+            return user;
         }
 
         public async Task<List<User>> GetAllUsers()
@@ -37,20 +45,25 @@ namespace Domain.Services
             if(!validationResult.IsValid){
                 throw new ValidationException($"Error creating user: {validationResult.Errors.FirstOrDefault().ErrorMessage}");
             }
+            User existingUser = await _userRepository.GetUserByUsername(user.Name);
+            if(existingUser != null){
+                throw new DomainException($"Cannot create user with username {user.Name} as a user with this name already exists");
+            }
             await _userRepository.CreateUser(user);
         }
 
         public async Task UpdateUser(User user)
         {
-            var userToUpdate = await _userRepository.GetUserById(user.Id);
-            if(userToUpdate == null){
-                throw new NotFoundException($"User with id {user.Id} not found, failed to update");
+            var existingUser = await _userRepository.GetUserByUsername(user.Name);
+            if(existingUser != null && (existingUser.Name == user.Name && existingUser.Id != user.Id)){
+                throw new DomainException($"Cannot update user to have username {user.Name} as a different user with this name already exists");
             }
             ValidationResult validationResult = _userValidator.Validate(user);
             if(!validationResult.IsValid){
                 throw new ValidationException($"Error updating user: {validationResult.Errors.FirstOrDefault().ErrorMessage}");
             }
-            await _userRepository.UpdateUser(userToUpdate);
+
+            await _userRepository.UpdateUser(user);
         }
 
         public async Task DeleteUser(int userId)
