@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Dtos;
 using Data.Entities;
 using Domain.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Controllers
 {
@@ -38,8 +40,11 @@ namespace Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> UpdateUser(UserDto userDto)
         {
+            var userId = User.Identity.Name;
+            Console.WriteLine(userId);
             User user = _mapper.Map<User>(userDto);
             await _userService.UpdateUser(user);
 

@@ -19,11 +19,19 @@ namespace Domain.Services
 
         public async Task<User> GetUserById(int id)
         {
-            var user = _userRepository.GetUserById(id);
+            var user = await _userRepository.GetUserById(id);
             if(user == null){
                 throw new NotFoundException($"User with id {id} not found");
             }
-            return await _userRepository.GetUserById(id);
+            return user;
+        }
+
+        public async Task<User> GetUserByUsername(string username){
+            var user = await _userRepository.GetUserByUsername(username);
+            if(user == null){
+                throw new NotFoundException($"User with name {user.Name} not found");
+            }
+            return user;
         }
 
         public async Task<List<User>> GetAllUsers()

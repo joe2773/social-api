@@ -16,6 +16,10 @@ namespace Data.Repositories {
             return await _dbContext.Users.FindAsync(id);
         }
 
+        public async Task<User> GetUserByUsername(string username){
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Name == username);
+        }
+
         public async Task<List<User>> GetAllUsers()
         {
             return await _dbContext.Users.ToListAsync();
