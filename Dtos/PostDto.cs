@@ -7,7 +7,7 @@ namespace Dtos{
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
 
-        public UserDto? User { get; set; }
+        public UserRequestDto? User { get; set; }
         public ICollection<LikeDto>? Likes { get; set; }
         public ICollection<CommentDto>? Comments { get; set; }
     }

@@ -26,12 +26,12 @@ namespace Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             User user = await _userService.GetUserById(id);
-            UserDto userDto = _mapper.Map<UserDto>(user);
+            UserRequestDto userDto = _mapper.Map<UserRequestDto>(user);
             return Ok(userDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(UserDto userDto)
+        public async Task<IActionResult> CreateUser(UserRequestDto userDto)
         {
             User user = _mapper.Map<User>(userDto);
             await _userService.CreateUser(user);
@@ -41,10 +41,12 @@ namespace Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> UpdateUser(UserDto userDto)
+        public async Task<IActionResult> UpdateUser(UserRequestDto userDto)
         {
-            var userId = User.Identity.Name;
-            Console.WriteLine(userId);
+            var username = User?.Identity?.Name;
+            if(username != userDto.Name){
+                return Unauthorized($"Cannot update user with name {username} as you are not logged in as that user");
+            }
             User user = _mapper.Map<User>(userDto);
             await _userService.UpdateUser(user);
 

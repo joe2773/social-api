@@ -1,5 +1,5 @@
 namespace Dtos{
-    public class UserDto {
+    public class UserRequestDto {
         public int Id {get; set;}
         public string? Name { get; set; }
         public string? Bio { get; set; }
