@@ -25,12 +25,12 @@ namespace Controllers
         public async Task<IActionResult> GetPostById(int id)
         {
             Post post = await _postService.GetPostById(id);
-            PostDto postDto = _mapper.Map<PostDto>(post);
+            PostResponseDto postDto = _mapper.Map<PostResponseDto>(post);
             return Ok(postDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost(PostDto postDto)
+        public async Task<IActionResult> CreatePost(PostRequestDto postDto)
         {
             Post post = _mapper.Map<Post>(postDto);
             await _postService.CreatePost(post);
@@ -39,7 +39,7 @@ namespace Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePost(PostDto postDto)
+        public async Task<IActionResult> UpdatePost(PostRequestDto postDto)
         {
             Post post = _mapper.Map<Post>(postDto);
             await _postService.UpdatePost(post);

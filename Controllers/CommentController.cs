@@ -25,12 +25,12 @@ namespace YourNamespace.Controllers
         public async Task<IActionResult> GetCommentById(int id)
         {
             Comment comment = await _commentService.GetCommentById(id);
-            CommentDto commentDto = _mapper.Map<CommentDto>(comment);
+            CommentResponseDto commentDto = _mapper.Map<CommentResponseDto>(comment);
             return Ok(commentDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateComment(CommentDto commentDto)
+        public async Task<IActionResult> CreateComment(CommentRequestDto commentDto)
         {
             Comment comment = _mapper.Map<Comment>(commentDto);
             await _commentService.CreateComment(comment);
@@ -39,7 +39,7 @@ namespace YourNamespace.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateComment(CommentDto commentDto)
+        public async Task<IActionResult> UpdateComment(CommentRequestDto commentDto)
         {
             Comment comment = _mapper.Map<Comment>(commentDto);
             await _commentService.UpdateComment(comment);
