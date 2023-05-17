@@ -4,6 +4,6 @@
 *.dll
 *.exe
 *.pdb
-.vscode/
+
 
 database.db
