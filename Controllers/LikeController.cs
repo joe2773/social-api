@@ -25,12 +25,12 @@ namespace YourNamespace.Controllers
         public async Task<IActionResult> GetLikeById(int id)
         {
             Like like = await _likeService.GetLikeById(id);
-            LikeDto likeDto = _mapper.Map<LikeDto>(like);
+            LikeResponseDto likeDto = _mapper.Map<LikeResponseDto>(like);
             return Ok(likeDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateLike(LikeDto likeDto)
+        public async Task<IActionResult> CreateLike(LikeRequestDto likeDto)
         {
             Like like = _mapper.Map<Like>(likeDto);
             await _likeService.CreateLike(like);
@@ -39,7 +39,7 @@ namespace YourNamespace.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateLike(LikeDto likeDto)
+        public async Task<IActionResult> UpdateLike(LikeRequestDto likeDto)
         {
             Like like = _mapper.Map<Like>(likeDto);
             await _likeService.UpdateLike(like);

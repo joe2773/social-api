@@ -1,11 +1,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Dtos;
 using Data.Entities;
 using Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
+using Dtos;
 namespace Controllers
 {
     [ApiController]
@@ -26,7 +24,7 @@ namespace Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             User user = await _userService.GetUserById(id);
-            UserRequestDto userDto = _mapper.Map<UserRequestDto>(user);
+            UserResponseDto userDto = _mapper.Map<UserResponseDto>(user);
             return Ok(userDto);
         }
 
