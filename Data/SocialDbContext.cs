@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Data.Entities;
+
+
 public class SocialDbContext : DbContext
 {
     public DbSet<User>? Users { get; set; }
@@ -12,9 +14,8 @@ public class SocialDbContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Configure the database connection here
-        optionsBuilder.UseSqlite("Data Source=database.db");
-
+        var connectionString = "Server=terraform-20230530220614685300000001.c9rpg2jlbmtx.us-east-1.rds.amazonaws.com;Port=3306;Database=social-db;Uid=admin;Pwd=password";
+        optionsBuilder.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
