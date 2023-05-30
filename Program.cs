@@ -5,6 +5,7 @@ using Domain.Services;
 using Domain.Services.Interfaces;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.DependencyInjection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,10 +28,6 @@ builder.Services.AddScoped<ILikeRepository, LikeRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
-builder.Services.AddDbContext<SocialDbContext>(options =>
-{
-    options.UseSqlite("Data Source= database.db");
-});
 
 // Register your domain services
 builder.Services.AddScoped<IUserService, UserService>();
@@ -39,7 +36,7 @@ builder.Services.AddScoped<ILikeService, LikeService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
-
+builder.Services.AddDbContext<SocialDbContext>();
 var mapperConfig = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile(new MappingProfile());
